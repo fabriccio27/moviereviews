@@ -16,9 +16,16 @@ class Movie(models.Model):
         return self.title
 
 
+class Watchlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ManyToManyField(Movie)
+
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
     comment = models.CharField(max_length=500)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")
+
+    def __str__(self):
+        return f"{self.user.username} rated with {self.rating} {self.movie.title}"
 
