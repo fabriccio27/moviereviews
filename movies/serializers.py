@@ -7,6 +7,7 @@ User = get_user_model()
 
 class MovieSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField("get_average_rating")
+    created_by = serializers.ReadOnlyField(source='created_by.id')
 
     def get_average_rating(self, obj):
         #aca deberia recuperar todos los ratings que tiene esta pelicula y elaborar
@@ -22,8 +23,7 @@ class MovieSerializer(serializers.ModelSerializer):
                
     class Meta:
         model = Movie
-        fields = ["title", "release", "genre", "plot", "average_rating"]
-    
+        fields = ["title", "release", "genre", "plot", "average_rating", "created_by"]
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
