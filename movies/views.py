@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, BasePermission, IsAuthenticatedOrReadOnly, SAFE_METHODS
 from rest_framework.response import Response
@@ -25,6 +26,22 @@ class MovieList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
+class WatchlistView(APIView):
+    #permission_classes = (IsAuthenticated,)
+    def get(self, request, id, format=None):
+        User = get_user_model()
+        user = User.objects.get(id=id)
+        wl = user.watchlist_set.first() #si me aseguro que al registrar creo una watchlist, esto no tira error
+        movies = wl.movie.all()
+        if movies.exists():
+            #serializer.is_valid() lo uso cuando mando data externa tipo json, esto ya esta en db
+            serializer = MovieSerializer(movies, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
+    def post(self, request, id, format=None):
+        pass
 
 class RatingList(APIView):
     
@@ -34,6 +51,7 @@ class RatingList(APIView):
         ratings = Rating.objects.filter(movie=id)
         # aca deberia manejar que pasa si el qs esta vacio
         serializer = RatingSerializer(ratings, many=True)
+        print(serializer.data)
         return Response(serializer.data)
     
     def post(self, request, id, format=None):

@@ -8,7 +8,9 @@
 * Create endpoint to retrieve all movie reviews.
 * Create endpoint to create movie. **Title tiene que ser unique??**
 * Create endpoint to retrieve, update and delete movie reviews, only accesible to authenticated users who are also owners.
-* Create watchlist for user
+* Create watchlist for user.
+    * Need to configure signal to create watchlist on registration
+* Create endpoint to add movie to user watchlist.
 
 ## Advances
 
@@ -19,3 +21,4 @@
 - set permissions to alter existing data.
 - set foreign key relationship to movies created.
 - set foreign key relationships (movie and user) to rating created.
+- set watchlist for user

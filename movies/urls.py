@@ -8,5 +8,6 @@ urlpatterns = [
     path("movies/<int:id>/", views.MovieDetail.as_view()),
     path("movies/<int:id>/ratings/", views.RatingList.as_view()),
     path("users/register/", views.register),
+    path("users/<int:id>/watchlist/", views.WatchlistView.as_view()),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'), #esta ruta no acepta GET, pues paso username y password
 ]
