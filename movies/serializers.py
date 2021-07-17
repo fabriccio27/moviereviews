@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Movie
+from .models import Movie, Rating
 
 
 User = get_user_model()
@@ -24,6 +24,19 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ["title", "release", "genre", "plot", "average_rating", "created_by"]
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    #aca me decia que tengo que pasar una instancia de movie y yo estoy pasando un numero. 
+    # En todo caso, deberia pasar la instancia y aca de la instancia usar el id, que es un numero
+    movie = serializers.ReadOnlyField(source="movie.id")
+
+    class Meta:
+        model = Rating
+        fields = "__all__"
+
+
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

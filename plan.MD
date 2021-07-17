@@ -16,5 +16,6 @@
 - generated token for user through command line 
 - made GET request with 'Authorization' and 'Token fjdjsfks' in header and worked for list view with permissions specified. Just for quick test, seeing movie list it's not meant to be restricted.
 - set `api-auth-token/` url to make POST requests with username and password in exchange for a token. Token must be stored somewhere to make subsequents requests. If using Postman, set "Accept":"application/json" in headers, and body as raw/json
-- set permissions to alter existing data
+- set permissions to alter existing data.
 - set foreign key relationship to movies created.
+- set foreign key relationships (movie and user) to rating created.
