@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, BasePermission, IsAuthenticatedOrReadOnly, SAFE_METHODS
@@ -26,22 +26,32 @@ class MovieList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
+
 class WatchlistView(APIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    User = get_user_model()
     def get(self, request, id, format=None):
-        User = get_user_model()
-        user = User.objects.get(id=id)
-        wl = user.watchlist_set.first() #si me aseguro que al registrar creo una watchlist, esto no tira error
+        
+        user = get_object_or_404(self.User, id=id)
+        wl = user.watchlist_set.first()
         movies = wl.movie.all()
         if movies.exists():
             #serializer.is_valid() lo uso cuando mando data externa tipo json, esto ya esta en db
             serializer = MovieSerializer(movies, many=True)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"No movies in watchlist for this user"}, status=status.HTTP_400_BAD_REQUEST)
         
     def post(self, request, id, format=None):
-        pass
+        # necesito data de pelicula, que viene en request y necesito recuperar watchlist de usuario con id que pase de arg en url
+        # capaz hay una manera mas elegante que esta
+        user = get_object_or_404(self.User, id=id)
+        wl = user.watchlist_set.first()
+        mv = Movie.objects.get(id=request.data.get('movie_id')) # print(f"id of movie you're trying to add: {request.data.get('movie_id')}")
+        wl.movie.add(mv)
+        wl.save()
+        return Response({"message":"successfully added movie to watchlist"}, status=status.HTTP_200_OK)
+
 
 class RatingList(APIView):
     
@@ -50,9 +60,12 @@ class RatingList(APIView):
     def get(self, request, id, format=None):
         ratings = Rating.objects.filter(movie=id)
         # aca deberia manejar que pasa si el qs esta vacio
-        serializer = RatingSerializer(ratings, many=True)
-        print(serializer.data)
-        return Response(serializer.data)
+        if ratings.exists():
+            serializer = RatingSerializer(ratings, many=True)
+            print(serializer.data)
+            return Response(serializer.data)
+        else:
+            return Response({"message":"No movie with requested id"}, status=status.HTTP_400_BAD_REQUEST)
     
     def post(self, request, id, format=None):
         serializer = RatingSerializer(data=request.data)

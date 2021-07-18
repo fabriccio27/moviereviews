@@ -9,8 +9,8 @@
 * Create endpoint to create movie. **Title tiene que ser unique??**
 * Create endpoint to retrieve, update and delete movie reviews, only accesible to authenticated users who are also owners.
 * Create watchlist for user.
-    * Need to configure signal to create watchlist on registration
-* Create endpoint to add movie to user watchlist.
+    * Need to configure signal to create watchlist on registration.
+* Create endpoint to add movie to user watchlist or get watchlist if user is authenticated
 
 ## Advances
 
