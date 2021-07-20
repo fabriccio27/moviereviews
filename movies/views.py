@@ -52,7 +52,9 @@ class WatchlistView(APIView):
         mv = Movie.objects.get(id=request.data.get('movie_id')) # print(f"id of movie you're trying to add: {request.data.get('movie_id')}")
         
         if mv in wl.movie.all():
-            return Response({"message":"Movie already in in watchlist"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message":"Movie already in watchlist"}, status=status.HTTP_200_OK)
+            #el codigo 204 no permite parsear error, por eso mando 200, la solicitud se completa aunque no agregue. 
+            #el framework tira 400 cuando quiero por ejemplo agregar movie que ya esta, lo considera bad request.
 
         wl.movie.add(mv)
         wl.save()
@@ -132,18 +134,22 @@ class CustomAuthToken(ObtainAuthToken):
         # usar serializer para data 
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'user_info':{
-                'user_id': user.pk,
-                'username':user.username,
-                'email': user.email
-            }
-            
-        })
+        if serializer.is_valid():
+            user = serializer.validated_data["user"]
+            #print(user)
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user_info':{
+                    'user_id': user.pk,
+                    'username':user.username,
+                    'email': user.email
+                }
+            })
+        else:
+            return Response({"error":"Credentials are not valid"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
 
 """ @api_view(["POST"])
 def movie_create(request):

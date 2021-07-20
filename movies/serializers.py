@@ -36,6 +36,7 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = "__all__"
+        """ extra_kwargs = {"comment":{"error_messages":{"required":"You must write a valid review."}}} """
 
 
 """ class LoginSerializer(serializers.ModelSerializer):

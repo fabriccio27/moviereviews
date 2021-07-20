@@ -6,7 +6,8 @@ User = get_user_model()
 
 # Create your models here.
 class Movie(models.Model):
-    title = models.CharField(max_length=220)
+
+    title = models.CharField(max_length=220, unique=True)
     release = models.DateField(auto_now_add=False, null=True, blank=True)
     genre = models.CharField(max_length=120)
     plot = models.CharField(max_length=300)
@@ -32,7 +33,31 @@ class Rating(models.Model):
     rating = models.IntegerField()
     comment = models.CharField(max_length=500)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")
+    rate_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username} rated with {self.rating} {self.movie.title}"
 
+""" GENRE_CHOICES = (
+        ("science fiction","Science Fiction"),
+        ("drama","Drama"),
+        ("war","War"),
+        ("documentary","Documentary"),
+        ("thriller","Thriller"),
+        ("horror","Horror"),
+        ("comedy","Comedy"),
+        ("romantic","Romantic"),
+        ("action","Action"),
+    ) 
+"""
+""" class ProductStateChoices(models.TextChoices):
+        SCIENCE_FICTION = ("science fiction","Science Fiction")
+        DRAMA = ("drama","Drama")
+        WAR = ("war","War")
+        DOCUMENTARY = ("documentary","Documentary")
+        THRILLER = ("thriller","Thriller")
+        HORROR = ("horror","Horror")
+        COMEDY = ("comedy","Comedy")
+        ROMANTIC = ("romantic","Romantic")
+        ACTION = ("action","Action") 
+"""
