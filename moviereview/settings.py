@@ -33,8 +33,7 @@ CORS_ORIGIN_WHITELIST = [
 
 # Application definition
 
-# aa9c1ffa8afd4eac5a86d08a03b3e8a5ccb6c3b1 for user negro
-# 9d2db6be7ba07c64d41d779572d96f08c79e6216 for user coqui
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
