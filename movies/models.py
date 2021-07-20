@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
 # Create your models here.
 class Movie(models.Model):
 
@@ -21,6 +20,7 @@ class Movie(models.Model):
 si a la instancia de watchlist le hago .movie, me dice que tengo un manager, entonces con wl_instance.movie.all() obtengo las instancias de peliculas
 puedo agregar instancias de Movie a wl haciendo wl_instance.movie.add(movieinstance). Tengo que guardar porque es una modificacion no hecha por create
 awl.save() """
+
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) # esto no deberia ser OneToOne??
     movie = models.ManyToManyField(Movie)
@@ -38,18 +38,7 @@ class Rating(models.Model):
     def __str__(self):
         return f"{self.user.username} rated with {self.rating} {self.movie.title}"
 
-""" GENRE_CHOICES = (
-        ("science fiction","Science Fiction"),
-        ("drama","Drama"),
-        ("war","War"),
-        ("documentary","Documentary"),
-        ("thriller","Thriller"),
-        ("horror","Horror"),
-        ("comedy","Comedy"),
-        ("romantic","Romantic"),
-        ("action","Action"),
-    ) 
-"""
+
 """ class ProductStateChoices(models.TextChoices):
         SCIENCE_FICTION = ("science fiction","Science Fiction")
         DRAMA = ("drama","Drama")
