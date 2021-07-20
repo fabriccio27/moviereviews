@@ -16,10 +16,10 @@ from .permissions import IsOwnerOrReadOnly
 
 class MovieList(generics.ListCreateAPIView):
     #aca deberia poner algo para que me calcule average rating de cada pelicula o en el serializer
-    queryset = Movie.objects.all()
+    queryset = Movie.objects.all()#.order_by('release')
     serializer_class = MovieSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-
+    
     # https://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/#associating-snippets-with-users
     # quiero que cuando cree una Movie me la relacione con el usuario que hizo solicitud
     # esto es un override, le pasa al serializer este argumento extra, y en el serializer le agrega un campo a lo que escribe a db
@@ -38,7 +38,7 @@ class WatchlistView(APIView):
         if movies.exists():
             #serializer.is_valid() lo uso cuando mando data externa tipo json, esto ya esta en db
             serializer = MovieSerializer(movies, many=True)
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response({"message":"No movies in watchlist for this user"}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -47,10 +47,30 @@ class WatchlistView(APIView):
         # capaz hay una manera mas elegante que esta
         user = get_object_or_404(self.User, id=id)
         wl = user.watchlist_set.first()
+        """ print(request.user) #da nombre de usuario
+        print(request.data) #da movie_id:x """
         mv = Movie.objects.get(id=request.data.get('movie_id')) # print(f"id of movie you're trying to add: {request.data.get('movie_id')}")
+        
+        if mv in wl.movie.all():
+            return Response({"message":"Movie already in in watchlist"}, status=status.HTTP_204_NO_CONTENT)
+
         wl.movie.add(mv)
         wl.save()
-        return Response({"message":"successfully added movie to watchlist"}, status=status.HTTP_200_OK)
+        return Response({"success":"Successfully added movie to watchlist"}, status=status.HTTP_200_OK)
+    
+    """ cuando alguien quiere borrar una pelicula de la watchlist que hago, DELETE o PUT? creo que PUT """
+    def put(self, request, id, format=None):
+        print("someone made a put request to trim watchlist")
+        user = get_object_or_404(self.User, id=id)
+        wl = user.watchlist_set.first()
+        mv = Movie.objects.get(id=request.data.get('movie_id'))
+        if mv in wl.movie.all():
+            wl.movie.remove(mv)
+            wl.save()
+            return Response({"success":"Successfully removed movie from watchlist"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message":"Movie is not in the watchlist"}, status=status.HTTP_204_NO_CONTENT)
+        
 
 
 class RatingList(APIView):
@@ -62,7 +82,7 @@ class RatingList(APIView):
         # aca deberia manejar que pasa si el qs esta vacio
         if ratings.exists():
             serializer = RatingSerializer(ratings, many=True)
-            print(serializer.data)
+            #print(serializer.data)
             return Response(serializer.data)
         else:
             return Response({"message":"No movie with requested id"}, status=status.HTTP_400_BAD_REQUEST)
@@ -86,9 +106,11 @@ def register(request):
         data["response"] = "Succesfully registered new user."
         data["username"] = user.username
         data["email"] = user.email
+        status_code = status.HTTP_201_CREATED
     else:
         data = serializer.errors
-    return Response(data)
+        status_code = status.HTTP_400_BAD_REQUEST
+    return Response(data, status=status_code)
 
 
 class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -100,6 +122,28 @@ class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsOwnerOrReadOnly,)
 
 
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        # usar serializer para data 
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_info':{
+                'user_id': user.pk,
+                'username':user.username,
+                'email': user.email
+            }
+            
+        })
 
 """ @api_view(["POST"])
 def movie_create(request):

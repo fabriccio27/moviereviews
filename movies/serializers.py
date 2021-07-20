@@ -19,11 +19,12 @@ class MovieSerializer(serializers.ModelSerializer):
         acum = 0
         for r in ratings_qs:
             acum += r.rating
-        return acum/len(ratings_qs)
+        avg = acum/len(ratings_qs)
+        return f"{round(avg,2)}"
                
     class Meta:
         model = Movie
-        fields = ["title", "release", "genre", "plot", "average_rating", "created_by"]
+        fields = ["id", "title", "release", "genre", "plot", "average_rating", "created_by"]
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -37,6 +38,10 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+""" class LoginSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = User
+        fields = ["username", "password"] """
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
