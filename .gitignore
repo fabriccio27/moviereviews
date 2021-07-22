@@ -1,2 +1,2 @@
-moviereview/local_settings.py
 *.sqlite3
+/frontend/node_modules/
