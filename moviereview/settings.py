@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['moviereview-fs.herokuapp.com',"127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['moviereviews-fs.herokuapp.com',"127.0.0.1","localhost"]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000'
@@ -63,9 +63,7 @@ ROOT_URLCONF = 'moviereview.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, "frontend/build")
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/build/static")
+    os.path.join(BASE_DIR, "build/static")
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
