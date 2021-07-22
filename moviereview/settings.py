@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
-#SECRET_KEY = 'django-insecure-$hc+7m-it%96og3bpl9q%5!%=u%omtmkle%_8q5w6te-j3)o*-'
+#this is not the key used in heroku, that one was set using heroku environment variables / heroku config set: VARNAME='VARVALUE'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'moviereview.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+# this will only be used locally
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
