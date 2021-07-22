@@ -18,7 +18,7 @@ class WatchlistPage extends React.Component {
     abortController = new AbortController();
     componentDidMount(){
         console.log("componente watchlist montado");
-        const url = `http://localhost:8000/api/users/${this.state.userId}/watchlist/`;
+        const url = `/api/users/${this.state.userId}/watchlist/`;
 
         fetch(url, {signal:this.abortController.signal})
         .then(resp => resp.json())
@@ -41,7 +41,7 @@ class WatchlistPage extends React.Component {
         const newWatchlist = this.state.watchlist.filter(movie=>{
             return movie.id!=targetId; //si tiene id distinto al target, queda
         });
-        const url = `http://localhost:8000/api/users/${this.state.userId}/watchlist/`;
+        const url = `/api/users/${this.state.userId}/watchlist/`;
         fetch(url, {
             method:"PUT",
             headers:{

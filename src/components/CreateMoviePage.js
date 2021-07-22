@@ -22,7 +22,7 @@ class CreateMoviePage extends React.Component {
     }
     handleOnSubmit = (ev) =>{
         ev.preventDefault();
-        const url = `http://localhost:8000/api/movies/`
+        const url = `/api/movies/`
         fetch(url, {
             method:"POST",
             headers:{

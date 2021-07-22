@@ -18,7 +18,7 @@ class LoginPage extends React.Component {
 
     handleOnSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:8000/api/api-token-auth/`, {
+        fetch(`/api/api-token-auth/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

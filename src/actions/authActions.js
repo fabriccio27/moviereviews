@@ -16,7 +16,7 @@ export const logUserOut = () => ({type: "LOGOUT"})
 
 /* userInfo es lo que tengo de state en el componente de Login */
 export const fetchUser = (userInfo) => dispatch => {
-    fetch(`http://localhost:8000/api/api-token-auth/`, {
+    fetch(`/api/api-token-auth/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

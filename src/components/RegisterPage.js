@@ -17,7 +17,7 @@ class RegisterPage extends React.Component {
     }
 
     handleOnSubmit = (ev) =>{
-        const url = `http://localhost:8000/api/users/register/`;
+        const url = `/api/users/register/`;
         ev.preventDefault()
         /* make post request */
         fetch(url, {

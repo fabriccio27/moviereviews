@@ -24,8 +24,8 @@ class MovieRatingPage extends React.Component {
     componentDidMount(){
         console.log("Componente movierating montado");
         Promise.all([
-            fetch(`http://localhost:8000/api/movies/${this.state.movie_id}/ratings/`, {signal:this.abortController.signal}).then(res=>res.json()),
-            fetch(`http://localhost:8000/api/movies/${this.state.movie_id}/`, {signal:this.abortController.signal}).then(res=>res.json())
+            fetch(`/api/movies/${this.state.movie_id}/ratings/`, {signal:this.abortController.signal}).then(res=>res.json()),
+            fetch(`/api/movies/${this.state.movie_id}/`, {signal:this.abortController.signal}).then(res=>res.json())
         ])
         .then(([ratingData, movieData])=>{
             if (Array.isArray(ratingData) && !movieData.hasOwnProperty("detail")){

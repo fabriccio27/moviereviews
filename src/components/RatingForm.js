@@ -10,7 +10,7 @@ const RatingForm = ({movieId})=>{
     const handleOnSubmit=(ev)=>{
         ev.preventDefault(); //el refresh me desloguea
     
-        const url = `http://localhost:8000/api/movies/${movieId}/ratings/`;
+        const url = `/api/movies/${movieId}/ratings/`;
         fetch(url, {
             method:"POST",
             headers:{

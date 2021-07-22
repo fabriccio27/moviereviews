@@ -20,7 +20,7 @@ class MovieDetailPage extends React.Component {
 
     componentDidMount(){
         console.log("componente MovieDetail montado.")
-        const url = `http://localhost:8000/api/movies/${this.state.movieId}/`;
+        const url = `/api/movies/${this.state.movieId}/`;
         fetch(url, {signal:this.abortController.signal})
         .then(res=>res.json())
         .then(data=>{
@@ -45,7 +45,7 @@ class MovieDetailPage extends React.Component {
     }
 
     handleAddToWl(){
-        const url = `http://localhost:8000/api/users/${this.props.currentUserId}/watchlist/`;
+        const url = `/api/users/${this.props.currentUserId}/watchlist/`;
         fetch(url, {
             method:"POST",
             headers:{
