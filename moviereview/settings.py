@@ -29,7 +29,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ['moviereviews-f.herokuapp.com',"127.0.0.1","localhost"]
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://localhost:3000',"https://moviereviews-f.herokuapp.com"
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 # Application definition

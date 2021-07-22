@@ -19,7 +19,7 @@ class MovieDashboardPage extends React.Component {
       // aca tengo que buscar recursos de drf API
       // http://localhost:8000/api/movies/
       console.log("Componente app montado");
-      fetch('http://localhost:8000/api/movies/', {signal:this.abortController.signal})
+      fetch('/api/movies/', {signal:this.abortController.signal})
         .then(results => results.json())
         .then(data =>{
           this.setState(()=>{
