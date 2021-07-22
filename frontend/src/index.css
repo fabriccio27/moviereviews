@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  background-color: rgb(18, 29, 29);
+  height:100vh;
+  color:antiquewhite;
+  display: flex;
+  justify-content: center;
+  padding:2rem 0 1rem;
+  margin:0;
+  overflow-y: scroll;
+}
+
+
+.review-form {
+  width:90%;
+  margin:2rem auto;
+}
+.form-div {
+  width:350px;
+}
+.navbar {
+  margin:0 auto;
+  display:flex;
+  justify-content: space-evenly;
+}
+.loading-img {
+  width:auto;
+  height:70vh;
+}
+.form-btn-div {
+  display:flex;
+  padding:2rem;
+  justify-content: center;
+  align-items: center;
+}
+.logout-btn {
+  background-color: transparent;
+  border:none;
+  color:antiquewhite;
+  font-weight:bold;
+}
+.logout-btn:hover{
+  color:brown;
+}
+.selected {
+  font-weight: bolder;
+}
+.wl-card-container {
+  display:flex;
+  align-items: center;
+  max-width:80vw;
+}
+.remove-wl-btn {
+  border-radius: 50%;
+  margin:1rem;
+}
+.card-text {
+  color:orangered;
+  font-weight:bold;
+  font-size:1.2rem;
+  display: flex;
+  align-items: center;
+  padding:0.5rem 0;
+}
+.toRatings-link{
+  text-decoration: none;
+}
+.toRatings-link:hover{
+  color:rgb(14, 24, 24)
+}
+
+.form-message {
+  width:300px;
+  color:orange;
+  text-align:"center"
+}
+.movie-detail-container, .movie-ratings-container {
+  max-width:80vw;
+}
+
+.rating-card {
+  margin:1.2rem 0;
+}
+.dashboard-title {
+  display:flex;
+  align-items: center;
+}
+.dashboard-title a {
+  text-decoration: none;
+}
+.dashboard-title a:hover {
+  color:rgb(19, 184, 69);
+  font-weight:bold;
+}
